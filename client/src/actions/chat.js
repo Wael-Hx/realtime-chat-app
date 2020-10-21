@@ -13,8 +13,13 @@ const server = process.env.REACT_APP_ENDPOINT;
 const socket = io(server);
 
 export const connectSocket = (codeName) => async (dispatch) => {
-  socket.emit("connected", { codeName });
-  dispatch({ type: CONNECTED });
+  if (codeName) {
+    socket.connect();
+    socket.emit("connected", { codeName });
+    dispatch({ type: CONNECTED });
+  } else {
+    return;
+  }
 };
 
 export const socketMessage = (recepient, newMessage) => async (dispatch) => {

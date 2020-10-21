@@ -45,11 +45,7 @@ const Navbar = ({ history }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (codeName) {
-      dispatch(connectSocket(codeName));
-      console.log("connected");
-    }
-    return () => null;
+    dispatch(connectSocket(codeName));
   }, [codeName, dispatch]);
 
   const handleLogout = () => {
