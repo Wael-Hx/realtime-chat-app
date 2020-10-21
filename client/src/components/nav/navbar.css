@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Oleo+Script&family=Raleway&display=swap");
+.home {
+  font-family: "Oleo Script", cursive;
+  font-weight: 300;
+}
+.sign-in {
+  font-family: "Raleway";
+  font-size: 0.8em;
+}
+nav {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  margin-left: -25%;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  background-color: white;
+  z-index: 2;
+  border-bottom: 1px solid silver;
+  justify-content: space-around;
+  flex-direction: row-reverse;
+}
+.account {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 699px) {
+  nav {
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+  }
+}

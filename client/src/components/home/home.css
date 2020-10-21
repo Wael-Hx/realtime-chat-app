@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Oleo+Script&family=Raleway&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.chat-container {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 4em;
+  justify-content: space-between;
+}
+.chat {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  overflow: auto;
+}
+.chat .MuiChip-label {
+  white-space: pre-wrap;
+  padding: 10px;
+}
+.chat .MuiChip-root {
+  height: fit-content;
+}
+.contact {
+  display: flex;
+  align-items: center;
+  margin: 5px auto;
+}
+.contact h4 {
+  font-family: "Roboto", "Raleway";
+  padding-left: 10px;
+}
+.home {
+  color: #3f51b5;
+}
