@@ -15,6 +15,7 @@ const initialState = {
   authState: false,
   loading: true,
   user: null,
+  userCode: null,
   errors: { code: "", message: "" },
 };
 
@@ -23,7 +24,13 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case USER_LOADED:
-      return { ...state, authState: true, user: payload, loading: false };
+      return {
+        ...state,
+        authState: true,
+        user: payload,
+        userCode: payload.userProfile.codeName,
+        loading: false,
+      };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       return { ...state, authState: true, loading: false };
@@ -42,7 +49,13 @@ export default function (state = initialState, action) {
       return { ...state, errors: payload, loading: false };
     case USER_DELETED:
     case LOGOUT:
-      return { ...state, authState: false, user: null, loading: false };
+      return {
+        ...state,
+        authState: false,
+        user: null,
+        userCode: null,
+        loading: false,
+      };
     case LOGOUT_ERROR:
       return { ...state, authState: false, errors: payload, loading: false };
     case LOGIN_FAIL:

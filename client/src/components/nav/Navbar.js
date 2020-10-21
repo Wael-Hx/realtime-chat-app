@@ -31,21 +31,25 @@ const Navbar = ({ history }) => {
     margin: 0,
   };
   const classes = useStyles();
-  const [userData, loading, authState] = useSelector(({ auth }) => [
+  const [userData, loading, authState, codeName] = useSelector(({ auth }) => [
     auth.user,
     auth.loading,
     auth.authState,
+    auth.userCode,
   ]);
   const dispatch = useDispatch();
-  let codeName = userData?.userProfile?.codeName;
 
   useEffect(() => {
     dispatch(currentUser());
     console.log("this a test build");
+  }, [dispatch]);
+
+  useEffect(() => {
     if (codeName) {
       dispatch(connectSocket(codeName));
       console.log("connected");
     }
+    return () => null;
   }, [codeName, dispatch]);
 
   const handleLogout = () => {
