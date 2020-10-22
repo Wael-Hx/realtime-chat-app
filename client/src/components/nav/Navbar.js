@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { currentUser, logout } from "../../actions/auth";
-import { connectSocket, disconnect } from "../../actions/chat";
+import { connectSocket, disconnect, socketReceive } from "../../actions/chat";
 import Loading from "./Loading";
 import "./navbar.css";
 import UserOptions from "./UserOptions";
@@ -47,6 +47,10 @@ const Navbar = ({ history }) => {
   useEffect(() => {
     dispatch(connectSocket(codeName));
   }, [codeName, dispatch]);
+
+  useEffect(() => {
+    dispatch(socketReceive());
+  }, []);
 
   const handleLogout = () => {
     dispatch(disconnect());

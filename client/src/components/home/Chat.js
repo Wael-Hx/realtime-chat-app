@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SendIcon from "@material-ui/icons/Send";
 import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
-import { socketMessage, socketReceive } from "../../actions/chat";
+import { socketMessage } from "../../actions/chat";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = ({ match, location }) => {
+const Chat = ({ location }) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const chatState = useSelector(({ chat }) => chat);
@@ -40,9 +40,6 @@ const Chat = ({ match, location }) => {
   let codeName = location.state.sender;
   let recepient = location.state.recepient;
 
-  useEffect(() => {
-    dispatch(socketReceive());
-  }, [dispatch]);
   const handleSubmit = (e) => {
     e.preventDefault();
     let newMessage = { codeName, message };
