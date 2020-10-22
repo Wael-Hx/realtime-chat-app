@@ -1,4 +1,10 @@
-import { CHAT_ERROR, MESSAGE_RECEIVED, MESSAGE_SENT } from "../actions/types";
+import {
+  CHAT_ERROR,
+  MESSAGE_RECEIVED,
+  MESSAGE_SENT,
+  LOGOUT,
+  CONTACT_ADDED,
+} from "../actions/types";
 const initialState = {
   messages: {},
   loading: true,
@@ -38,6 +44,10 @@ export default (state = initialState, { type, payload }) => {
           },
         };
       }
+    case LOGOUT:
+      return { ...state, messages: {}, msgRequest: null, errors: null };
+    case CONTACT_ADDED:
+      return { ...state, errors: null };
     case CHAT_ERROR:
       return { ...state, errors: payload, loading: false };
     default:

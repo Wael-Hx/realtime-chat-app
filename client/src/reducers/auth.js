@@ -33,7 +33,12 @@ export default function (state = initialState, action) {
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      return { ...state, authState: true, loading: false };
+      return {
+        ...state,
+        authState: true,
+        errors: { code: "", message: "" },
+        loading: false,
+      };
     case CONTACT_ADDED:
       return {
         ...state,
