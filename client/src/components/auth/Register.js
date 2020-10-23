@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Link, Redirect, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../actions/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -21,17 +20,22 @@ const linkStyles = {
   cursor: "pointer",
 };
 
-const Register = ({ history, registerUser, authState }) => {
+const Register = ({ history }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     email: "",
     username: "",
     password: "",
   });
-
+  const dispatch = useDispatch();
+  const [authState, loading, errors] = useSelector(({ auth }) => [
+    auth.authState,
+    auth.loading,
+    auth.errors,
+  ]);
   const [customError, setError] = useState("");
 
-  let { code, message } = authState.errors;
+  let { code, message } = errors;
   const { email, username, password } = formData;
 
   const onChange = (e) => {
@@ -42,18 +46,18 @@ const Register = ({ history, registerUser, authState }) => {
     e.preventDefault();
     username ? setError("") : setError("a username is required");
 
-    registerUser(history, email, username, password);
+    dispatch(registerUser(history, email, username, password));
   };
 
-  if (authState.loading) {
+  if (loading) {
     return <Loading />;
-  } else if (authState.authState) {
+  } else if (authState) {
     return <Redirect to="/" />;
   }
   return (
     <section className="signin">
       <form
-        onSubmit={(e) => submitUser(e)}
+        onSubmit={submitUser}
         className={classes.root}
         noValidate
         autoComplete="off"
@@ -63,7 +67,7 @@ const Register = ({ history, registerUser, authState }) => {
           helperText={customError ? customError : false}
           value={username}
           name="username"
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
           label="Name"
           type="text"
           variant="outlined"
@@ -75,7 +79,7 @@ const Register = ({ history, registerUser, authState }) => {
           helperText={code.includes("email") ? message : false}
           value={email}
           name="email"
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
           label="email"
           type="email"
           variant="outlined"
@@ -88,7 +92,7 @@ const Register = ({ history, registerUser, authState }) => {
           error={code.includes("password") ? true : false}
           helperText={code.includes("password") ? message : false}
           name="password"
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
           type="password"
           label="Password"
           variant="outlined"
@@ -99,7 +103,7 @@ const Register = ({ history, registerUser, authState }) => {
         <div className="register-links">
           <Button
             type="submit"
-            onSubmit={(e) => submitUser(e)}
+            onSubmit={submitUser}
             variant="contained"
             className="signin-btn"
             color="primary"
@@ -115,12 +119,5 @@ const Register = ({ history, registerUser, authState }) => {
     </section>
   );
 };
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
-  errors: PropTypes.object,
-};
 
-const mapStateToProps = (state) => ({
-  authState: state.auth,
-});
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default withRouter(Register);
