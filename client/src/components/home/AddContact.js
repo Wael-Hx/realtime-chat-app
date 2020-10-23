@@ -56,7 +56,7 @@ export default function AddContact({ codeName }) {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton>
+                    <IconButton type="submit">
                       <PageviewIcon />
                     </IconButton>
                   </InputAdornment>
