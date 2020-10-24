@@ -47,6 +47,10 @@ const Chat = ({ location }) => {
     setMessage("");
   };
 
+  const handleChange = (e) => {
+    setMessage(e.target.value);
+  };
+
   return (
     <Container style={{ height: "100%" }} maxWidth="sm">
       <main className="chat-container">
@@ -60,7 +64,7 @@ const Chat = ({ location }) => {
                   : { alignSelf: "flex-start" }
               }
               component="div"
-              color={msg.codeName !== codeName ? "secondary" : "primary"}
+              color={msg.codeName !== codeName ? "default" : "primary"}
               avatar={<Avatar alt={msg.codeName} src="" />}
               label={msg.message}
               variant="outlined"
@@ -74,7 +78,7 @@ const Chat = ({ location }) => {
         >
           <InputBase
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={handleChange}
             className={classes.input}
             placeholder="Type a message..."
             inputProps={{ "aria-label": "Type a message..." }}

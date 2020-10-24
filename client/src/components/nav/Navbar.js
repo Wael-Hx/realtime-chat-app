@@ -70,7 +70,7 @@ const Navbar = ({ history }) => {
           <>
             <Avatar
               alt={userData?.username}
-              src={userData?.avatar ? userData.avatar : "broken"}
+              src={userData?.avatar ?? "broken"}
               className={classes.small}
             />
             <UserOptions handleLogout={handleLogout} />

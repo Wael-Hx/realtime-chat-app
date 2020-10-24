@@ -13,7 +13,7 @@ const Contact = ({ contactName, contactAvatar, codeName, contactCode }) => {
           state: { sender: codeName, recepient: contactCode },
         }}
         alt={contactName}
-        src={contactAvatar ? contactAvatar : "broken"}
+        src={contactAvatar ?? "broken"}
       />
 
       <h4>{contactName} </h4>
