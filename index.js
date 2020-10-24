@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
   socket.on("connected", ({ codeName }) => {
     console.log(codeName);
     clients[codeName] = socket;
-    /*  console.log(Object.keys(clients)); */
+    console.log(Object.keys(clients));
   });
   socket.on("private", ({ to, message }) => {
     if (clients.hasOwnProperty(to)) {
@@ -108,7 +108,13 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log(`disconnected`);
-    /*  console.log(Object.keys(clients)); */
+
+    let dc = Object.keys(clients).filter(
+      (idx) => clients[idx].id === socket.id
+    );
+
+    delete clients[dc];
+    console.log(Object.keys(clients));
   });
 });
 server.listen(port, () => console.log(`server started on port ${port}`));
