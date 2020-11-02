@@ -8,7 +8,8 @@ import {
 const initialState = {
   messages: {},
   loading: true,
-  msgRequest: null,
+  msgNotifications: [],
+  activeChat: null,
   errors: null,
 };
 

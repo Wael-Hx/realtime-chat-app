@@ -21,7 +21,7 @@ const UserOptions = ({ handleLogout }) => {
   return (
     <div>
       <IconButton
-        style={{ padding: "3px" }}
+        style={{ padding: "3px 7px" }}
         color="primary"
         className="user_options"
         onClick={handleClick}

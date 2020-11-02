@@ -9,13 +9,18 @@ import {
   AUTH_ERROR,
   USER_DELETED,
   CONTACT_ADDED,
+  MESSAGE_RECEIVED,
+  ACTIVE_CHAT,
 } from "../actions/types";
 
 const initialState = {
   authState: false,
   loading: true,
   user: null,
+  userContacts: [],
   userCode: null,
+  friendRequests: [],
+  notificationsCount: 0,
   errors: { code: "", message: "" },
 };
 
@@ -29,6 +34,7 @@ export default function (state = initialState, action) {
         authState: true,
         user: payload,
         userCode: payload.userProfile.codeName,
+        userContacts: payload.userProfile.contacts,
         loading: false,
       };
     case LOGIN_SUCCESS:
@@ -42,13 +48,29 @@ export default function (state = initialState, action) {
     case CONTACT_ADDED:
       return {
         ...state,
-        user: {
-          ...state.user,
-          userProfile: {
-            ...state.user.userProfile,
-            contacts: [...state.user.userProfile.contacts, payload],
-          },
-        },
+        userContacts: [...state.userContacts, payload],
+        loading: false,
+      };
+    case MESSAGE_RECEIVED:
+      let isContact = state.userContacts.some(
+        (contact) => contact.codeName === payload.codeName
+      );
+      let duplicate = state.friendRequests.includes(payload.codeName);
+      if (!isContact && !duplicate) {
+        return {
+          ...state,
+          friendRequests: [...state.friendRequests, payload.codeName],
+          notificationsCount: state.notificationsCount + 1,
+        };
+      } else {
+        return {
+          ...state,
+        };
+      }
+    case ACTIVE_CHAT:
+      return {
+        ...state,
+        notificationsCount: 0,
       };
     case REGISTER_FAIL:
       return { ...state, errors: payload, loading: false };
@@ -58,6 +80,7 @@ export default function (state = initialState, action) {
         ...state,
         authState: false,
         user: null,
+        userContacts: [],
         userCode: null,
         loading: false,
       };

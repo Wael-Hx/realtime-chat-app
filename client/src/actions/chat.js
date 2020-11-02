@@ -5,6 +5,7 @@ import {
   MESSAGE_RECEIVED,
   CHAT_ERROR,
   CONTACT_ADDED,
+  ACTIVE_CHAT,
 } from "./types";
 import io from "socket.io-client";
 import axios from "axios";
@@ -69,4 +70,11 @@ export const addContact = (codeName, contact) => async (dispatch) => {
       payload: err.response.data,
     });
   }
+};
+
+export const currentChat = (codeName) => (dispatch) => {
+  dispatch({
+    type: ACTIVE_CHAT,
+    payload: codeName,
+  });
 };

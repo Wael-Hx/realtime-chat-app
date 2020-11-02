@@ -90,10 +90,9 @@ app.put("/conversation/:id1-:id2", async (req, res) => {
   }
 });
 //socket io
-var clients = {};
+const clients = {};
 io.on("connection", (socket) => {
   socket.on("connected", ({ codeName }) => {
-    console.log(codeName);
     clients[codeName] = socket;
     console.log(Object.keys(clients));
   });
@@ -107,12 +106,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(`disconnected`);
-
     let dc = Object.keys(clients).filter(
       (idx) => clients[idx].id === socket.id
     );
-
     delete clients[dc];
     console.log(Object.keys(clients));
   });

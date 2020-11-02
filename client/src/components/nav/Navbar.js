@@ -8,6 +8,7 @@ import { connectSocket, disconnect, socketReceive } from "../../actions/chat";
 import Loading from "./Loading";
 import "./navbar.css";
 import UserOptions from "./UserOptions";
+import Notifications from "./Notifications";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,11 +32,20 @@ const Navbar = ({ history }) => {
     margin: 0,
   };
   const classes = useStyles();
-  const [userData, loading, authState, codeName] = useSelector(({ auth }) => [
+  const [
+    userData,
+    loading,
+    authState,
+    codeName,
+    friendRequests,
+    notificationsCount,
+  ] = useSelector(({ auth }) => [
     auth.user,
     auth.loading,
     auth.authState,
     auth.userCode,
+    auth.friendRequests,
+    auth.notificationsCount,
   ]);
   const dispatch = useDispatch();
 
@@ -74,6 +84,11 @@ const Navbar = ({ history }) => {
               className={classes.small}
             />
             <UserOptions handleLogout={handleLogout} />
+            <Notifications
+              nCount={notificationsCount}
+              fRequests={friendRequests}
+              codeName={codeName}
+            />
           </>
         ) : (
           <Link to="/auth" style={linkStyles}>

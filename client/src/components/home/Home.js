@@ -40,10 +40,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const [loading, user, authState] = useSelector(({ auth }) => [
+  const [loading, user, authState, contacts] = useSelector(({ auth }) => [
     auth.loading,
     auth.user,
     auth.authState,
+    auth.userContacts,
   ]);
 
   if (loading) {
@@ -57,7 +58,7 @@ const Home = () => {
     <Container className={classes.containerStyle} maxWidth="sm">
       <main className="chat-container">
         <section>
-          {user?.userProfile?.contacts.map((contact) => {
+          {contacts.map((contact) => {
             return (
               <Contact
                 key={contact._id}
