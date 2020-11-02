@@ -94,7 +94,6 @@ const clients = {};
 io.on("connection", (socket) => {
   socket.on("connected", ({ codeName }) => {
     clients[codeName] = socket;
-    console.log(Object.keys(clients));
   });
   socket.on("private", ({ to, message }) => {
     if (clients.hasOwnProperty(to)) {
@@ -110,7 +109,6 @@ io.on("connection", (socket) => {
       (idx) => clients[idx].id === socket.id
     );
     delete clients[dc];
-    console.log(Object.keys(clients));
   });
 });
 server.listen(port, () => console.log(`server started on port ${port}`));
