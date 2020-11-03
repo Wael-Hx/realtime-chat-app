@@ -6,6 +6,7 @@ import {
   CHAT_ERROR,
   CONTACT_ADDED,
   ACTIVE_CHAT,
+  EXIT,
 } from "./types";
 import io from "socket.io-client";
 import axios from "axios";
@@ -76,5 +77,11 @@ export const currentChat = (codeName) => (dispatch) => {
   dispatch({
     type: ACTIVE_CHAT,
     payload: codeName,
+  });
+};
+
+export const exitChat = () => (dispatch) => {
+  dispatch({
+    type: EXIT,
   });
 };

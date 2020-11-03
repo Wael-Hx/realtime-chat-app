@@ -19,3 +19,4 @@ export const SOCKET_DISCONNECT = "SOCKET_DISCONNECT";
 export const CHAT_ERROR = "CHAT_ERROR";
 export const CONTACT_ADDED = "CONTACT_ADDED";
 export const ACTIVE_CHAT = "ACTIVE_CHAT";
+export const EXIT = "EXIT";

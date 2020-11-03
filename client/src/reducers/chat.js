@@ -4,11 +4,13 @@ import {
   MESSAGE_SENT,
   LOGOUT,
   CONTACT_ADDED,
+  ACTIVE_CHAT,
+  EXIT,
 } from "../actions/types";
 const initialState = {
   messages: {},
   loading: true,
-  msgNotifications: [],
+  msgNotifier: [],
   activeChat: null,
   errors: null,
 };
@@ -35,6 +37,7 @@ export default (state = initialState, { type, payload }) => {
         return {
           ...state,
           messages: { ...state.messages, [payload.codeName]: [payload] },
+          msgNotifier: [...state.msgNotifier, payload.codeName],
         };
       } else {
         return {
@@ -43,8 +46,22 @@ export default (state = initialState, { type, payload }) => {
             ...state.messages,
             [payload.codeName]: [...state.messages[payload.codeName], payload],
           },
+          msgNotifier: [...state.msgNotifier, payload.codeName],
         };
       }
+    case ACTIVE_CHAT:
+      return {
+        ...state,
+        activeChat: payload,
+        msgNotifier: state.msgNotifier.filter(
+          (codename) => codename !== payload
+        ),
+      };
+    case EXIT:
+      return {
+        ...state,
+        activeChat: null,
+      };
     case LOGOUT:
       return { ...state, messages: {}, msgRequest: null, errors: null };
     case CONTACT_ADDED:
