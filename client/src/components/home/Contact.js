@@ -16,27 +16,34 @@ const Contact = ({ contactName, contactAvatar, codeName, contactCode }) => {
   const openChat = () => {
     dispatch(currentChat(contactCode));
   };
-  return (
-    <div onClick={openChat} className="contact">
-      <Avatar
-        component={Link}
-        to={{
-          pathname: `/${codeName}-${contactCode}`,
-          state: { sender: codeName, recepient: contactCode },
-        }}
-        alt={contactName}
-        src={contactAvatar ?? "broken"}
-      />
 
-      <h4>
-        {contactName}
-        {notifyCount(msgNotifier, contactCode) > 0 ? (
-          <span className="notify">
-            {` ${notifyCount(msgNotifier, contactCode)} new message(s)`}
-          </span>
-        ) : null}
-      </h4>
-    </div>
+  const linkStyles = {
+    textDecoration: "none",
+    color: "inherit",
+    cursor: "pointer",
+  };
+  return (
+    <Link
+      onClick={openChat}
+      style={linkStyles}
+      to={{
+        pathname: `/${codeName}-${contactCode}`,
+        state: { sender: codeName, recepient: contactCode },
+      }}
+    >
+      <div className="contact">
+        <Avatar alt={contactName} src={contactAvatar ?? "broken"} />
+
+        <h4>
+          {contactName}
+          {notifyCount(msgNotifier, contactCode) > 0 ? (
+            <span className="notify">
+              {` ${notifyCount(msgNotifier, contactCode)} new message(s)`}
+            </span>
+          ) : null}
+        </h4>
+      </div>
+    </Link>
   );
 };
 
