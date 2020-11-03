@@ -24,8 +24,12 @@
 .contact {
   display: flex;
   align-items: center;
-  margin: 5px auto;
+  margin: 15px;
+  padding: 5px;
+  box-shadow: 0px 4px 7px -3px rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
 }
+
 .contact h4 {
   font-family: "Open Sans", "Raleway", sans-serif;
   padding-left: 10px;
@@ -39,4 +43,7 @@
   font-family: "Open Sans", sans-serif;
   font-style: italic;
   font-size: 0.7em;
+}
+.recepient-avatar {
+  margin-right: 5px !important;
 }

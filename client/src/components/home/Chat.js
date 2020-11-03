@@ -64,12 +64,20 @@ const Chat = ({ location }) => {
               key={idx}
               style={
                 msg.codeName !== codeName
-                  ? { alignSelf: "flex-end" }
+                  ? { alignSelf: "flex-end", flexDirection: "row-reverse" }
                   : { alignSelf: "flex-start" }
               }
               component="div"
               color={msg.codeName !== codeName ? "default" : "primary"}
-              avatar={<Avatar alt={msg.codeName} src="" />}
+              avatar={
+                <Avatar
+                  className={
+                    msg.codeName !== codeName ? "recepient-avatar" : ""
+                  }
+                  alt={msg.codeName}
+                  src=""
+                />
+              }
               label={msg.message}
               variant="outlined"
             />
@@ -84,6 +92,7 @@ const Chat = ({ location }) => {
             value={message}
             onChange={handleChange}
             className={classes.input}
+            multiline
             placeholder="Type a message..."
             inputProps={{ "aria-label": "Type a message..." }}
           />
