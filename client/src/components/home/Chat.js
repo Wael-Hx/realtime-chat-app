@@ -8,9 +8,10 @@ import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import SendIcon from "@material-ui/icons/Send";
+import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
-import { socketMessage, exitChat } from "../../actions/chat";
+import { socketMessage, exitChat, addContact } from "../../actions/chat";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +37,7 @@ const Chat = ({ location }) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const chatState = useSelector(({ chat }) => chat);
+  const friendRequests = useSelector(({ auth }) => auth.friendRequests);
   const dispatch = useDispatch();
   let codeName = location.state.sender;
   let recepient = location.state.recepient;
@@ -53,6 +55,10 @@ const Chat = ({ location }) => {
 
   const handleChange = (e) => {
     setMessage(e.target.value);
+  };
+
+  const contactAction = () => {
+    dispatch(addContact(codeName, recepient));
   };
 
   return (
@@ -83,6 +89,17 @@ const Chat = ({ location }) => {
             />
           ))}
         </section>
+        {friendRequests.includes(recepient) ? (
+          <div>
+            <IconButton
+              onClick={contactAction}
+              color="primary"
+              aria-label="add to contact list"
+            >
+              <GroupAddOutlinedIcon />
+            </IconButton>
+          </div>
+        ) : null}
         <Paper
           onSubmit={handleSubmit}
           component="form"

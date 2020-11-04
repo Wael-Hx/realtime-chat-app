@@ -49,6 +49,9 @@ export default function (state = initialState, action) {
       return {
         ...state,
         userContacts: [...state.userContacts, payload],
+        friendRequests: state.friendRequests.filter(
+          (contact) => contact !== payload.codeName
+        ),
         loading: false,
       };
     case MESSAGE_RECEIVED:
