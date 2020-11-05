@@ -39,6 +39,14 @@ export default (state = initialState, { type, payload }) => {
           messages: { ...state.messages, [payload.codeName]: [payload] },
           msgNotifier: [...state.msgNotifier, payload.codeName],
         };
+      } else if (payload.codeName === state.activeChat) {
+        return {
+          ...state,
+          messages: {
+            ...state.messages,
+            [payload.codeName]: [...state.messages[payload.codeName], payload],
+          },
+        };
       } else {
         return {
           ...state,
