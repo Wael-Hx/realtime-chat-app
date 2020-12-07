@@ -48,14 +48,18 @@ app.put("/profile/:id", async (req, res) => {
       Profile.findOne({ codeName: req.body.contact }),
     ]);
     if (profile && contact) {
-      profile.contacts.push(contact.id);
-      await Promise.all([profile.save(), newConversation.save()]);
-      res.send({
-        avatar: contact.avatar,
-        _id: contact.id,
-        username: contact.username,
-        codeName: contact.codeName,
-      });
+      if (profile.contacts.includes(contact.id)) {
+        res.status(409).send("contact already in contact list");
+      } else {
+        profile.contacts.push(contact.id);
+        await Promise.all([profile.save(), newConversation.save()]);
+        res.send({
+          avatar: contact.avatar,
+          _id: contact.id,
+          username: contact.username,
+          codeName: contact.codeName,
+        });
+      }
     } else {
       res.status(404).send("contact not found");
     }
