@@ -4,10 +4,16 @@ const cors = require("cors");
 const server = require("http").createServer(app);
 const connectDB = require("./config/db");
 const io = require("socket.io")(server);
+require("dotenv").config();
+
 const port = process.env.PORT || 5000;
 
 connectDB();
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+  })
+);
 app.use(express.json({ extended: false }));
 app.get("/", (_, res) => res.send("API Runing..."));
 app.use("/api/profile", require("./routes/api/profile"));
