@@ -57,7 +57,7 @@ export const addContact = (codeName, contact) => async (dispatch) => {
   };
   try {
     let res = await axios.put(
-      `${server}/profile/${codeName}`,
+      `${server}/api/profile/${codeName}`,
       { contact },
       config
     );

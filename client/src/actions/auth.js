@@ -33,7 +33,7 @@ export const registerUser = (history, email, username, password) => async (
         username: username,
         codeName: username + newUser.user.uid.substring(0, 4),
       };
-      await axios.post(`${server}/profile`, newProfile, config);
+      await axios.post(`${server}/api/profile`, newProfile, config);
       /* newUser.user.sendEmailVerification(); */
       dispatch({
         type: REGISTER_SUCCESS,
@@ -55,7 +55,7 @@ export const currentUser = () => (dispatch) => {
   auth.onAuthStateChanged((user) => {
     if (user) {
       let codeName = user.displayName + user.uid.substring(0, 4);
-      axios.get(`${server}/profile/${codeName}`).then((res) => {
+      axios.get(`${server}/api/profile/${codeName}`).then((res) => {
         dispatch({
           type: USER_LOADED,
           payload: {
