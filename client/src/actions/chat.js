@@ -9,7 +9,6 @@ import {
   EXIT,
 } from "./types";
 import io from "socket.io-client";
-import axios from "axios";
 
 const server = process.env.REACT_APP_ENDPOINT;
 const socket = io(server);
@@ -56,19 +55,25 @@ export const addContact = (codeName, contact) => async (dispatch) => {
     },
   };
   try {
-    let res = await axios.put(
-      `${server}/api/profile/${codeName}`,
-      { contact },
-      config
-    );
+    let res = await fetch(`${server}/api/profile/${codeName}`, {
+      method: "PUT",
+      headers: config.headers,
+      body: JSON.stringify({ contact }),
+    });
+
+    if (!res.ok) {
+      let message = await res.text();
+      throw new Error(message);
+    }
+    let data = await res.json();
     dispatch({
       type: CONTACT_ADDED,
-      payload: res.data,
+      payload: data,
     });
   } catch (err) {
     dispatch({
       type: CHAT_ERROR,
-      payload: err.response.data,
+      payload: err.message,
     });
   }
 };

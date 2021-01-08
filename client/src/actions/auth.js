@@ -1,5 +1,4 @@
 import { auth } from "../firebase";
-import axios from "axios";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -33,7 +32,11 @@ export const registerUser = (history, email, username, password) => async (
         username: username,
         codeName: username + newUser.user.uid.substring(0, 4),
       };
-      await axios.post(`${server}/api/profile`, newProfile, config);
+      await fetch(`${server}/api/profile`, {
+        method: "POST",
+        headers: config.headers,
+        body: JSON.stringify(newProfile),
+      });
       /* newUser.user.sendEmailVerification(); */
       dispatch({
         type: REGISTER_SUCCESS,
@@ -52,23 +55,24 @@ export const registerUser = (history, email, username, password) => async (
 };
 
 export const currentUser = () => (dispatch) => {
-  auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged(async (user) => {
     if (user) {
       let codeName = user.displayName + user.uid.substring(0, 4);
-      axios.get(`${server}/api/profile/${codeName}`).then((res) => {
-        dispatch({
-          type: USER_LOADED,
-          payload: {
-            userProfile: res.data,
-            uid: user.uid,
-            username: user.displayName,
-            avatar: user.photoURL,
-            phone: user.phoneNumber,
-            isVerified: user.emailVerified,
-            anonymous: user.isAnonymous,
-            tenantId: user.tenantId,
-          },
-        });
+      const res = await (
+        await fetch(`${server}/api/profile/${codeName}`)
+      ).json();
+      dispatch({
+        type: USER_LOADED,
+        payload: {
+          userProfile: res,
+          uid: user.uid,
+          username: user.displayName,
+          avatar: user.photoURL,
+          phone: user.phoneNumber,
+          isVerified: user.emailVerified,
+          anonymous: user.isAnonymous,
+          tenantId: user.tenantId,
+        },
       });
     } else {
       dispatch({

@@ -15,7 +15,7 @@ const initialState = {
   errors: null,
 };
 
-export default (state = initialState, { type, payload }) => {
+export default function chat(state = initialState, { type, payload }) {
   switch (type) {
     case MESSAGE_SENT:
       if (!state.messages[payload.to]) {
@@ -79,4 +79,4 @@ export default (state = initialState, { type, payload }) => {
     default:
       return state;
   }
-};
+}
